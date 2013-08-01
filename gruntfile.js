@@ -40,6 +40,20 @@ module.exports = function(grunt) {
             }
         },
 
+        // sass (uses compass)
+        compass: {
+            dev: {
+                options: {
+                    sassDir: SRC + 'sass',
+                    cssDir: DIST + 'css',
+                    outputStyle: 'compact',
+                    environment: 'production',
+                    require: [ 'normalize' ]
+                    // specify: []
+                }
+            }
+        },
+
         // watch (livereload)
         watch: {
             options: {
@@ -57,6 +71,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('assemble');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-compass');
 
     //tasks
     grunt.registerTask('default', ['assemble', 'connect', 'watch']);

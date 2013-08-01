@@ -12,6 +12,7 @@
         "assemble": "*",
         "grunt": "*",
         "grunt-contrib-connect": "",
-        "grunt-contrib-watch": ""
+        "grunt-contrib-watch": "",
+        "grunt-contrib-compass": ""
     }
 }
