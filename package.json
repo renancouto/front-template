@@ -1,0 +1,17 @@
+{
+    "name": "wave-admin",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://renancouto@bitbucket.org/renancouto/wave-admin.git"
+    },
+    "scripts": {
+        "start": ""
+    },
+    "devDependencies": {
+        "assemble": "*",
+        "grunt": "*",
+        "grunt-contrib-connect": "",
+        "grunt-contrib-watch": ""
+    }
+}
