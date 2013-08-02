@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+    </head>
+
+    <body>
+        {{> body }}
+
+        {{! dev}}
+        <script src="http://localhost:{{ config.ports.watch }}/livereload.js"></script>
+    </body>
+</html>

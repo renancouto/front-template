@@ -1,6 +1,6 @@
-/* global module:false */
+/*jslint node:true*/
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     'use strict';
 
     // config
@@ -18,7 +18,9 @@ module.exports = function(grunt) {
         // build the templates
         assemble: {
             options: {
-                data: SRC + 'data/*.json'
+                data: SRC + 'data/*.json',
+                layoutdir: SRC + 'views/templates/',
+                layout: 'base.hbs'
             },
 
             files: {
@@ -61,7 +63,7 @@ module.exports = function(grunt) {
             },
 
             assemble: {
-                files: [ SRC + 'views/**.hbs' ],
+                files: [ 'gruntfile.js', SRC + 'views/**.hbs' ],
                 tasks: [ 'assemble' ]
             }
         }
