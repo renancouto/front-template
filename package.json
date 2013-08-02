@@ -13,6 +13,7 @@
         "grunt": "*",
         "grunt-contrib-connect": "",
         "grunt-contrib-watch": "",
-        "grunt-contrib-compass": ""
+        "grunt-contrib-compass": "",
+        "grunt-contrib-clean": ""
     }
 }

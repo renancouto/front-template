@@ -56,6 +56,9 @@ module.exports = function (grunt) {
             }
         },
 
+        // clean DIST folder
+        clean: [ DIST ],
+
         // watch (livereload)
         watch: {
             options: {
@@ -64,7 +67,7 @@ module.exports = function (grunt) {
 
             assemble: {
                 files: [ 'gruntfile.js', SRC + 'views/**.hbs' ],
-                tasks: [ 'assemble' ]
+                tasks: [ 'clean', 'assemble' ]
             }
         }
     });
@@ -74,7 +77,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
     //tasks
-    grunt.registerTask('default', ['assemble', 'connect', 'watch']);
+    grunt.registerTask('default', ['assemble', 'compass', 'connect', 'watch']);
 };
