@@ -15,6 +15,23 @@ module.exports = function (grunt) {
     // setup
     grunt.initConfig({
 
+        // initializer
+        shell: {
+            git: {
+                command: 'git pull',
+                stdout: true
+            },
+
+            removeModules: {
+                command: 'rm -rf node_modules'
+            },
+
+            installModules: {
+                command: 'npm install',
+                stdout: true
+            }
+        },
+
         // build the templates
         assemble: {
             options: {
@@ -50,8 +67,7 @@ module.exports = function (grunt) {
                     cssDir: DIST + 'css',
                     outputStyle: 'compact',
                     environment: 'production',
-                    require: [ 'normalize' ]
-                    // specify: []
+                    require: ['normalize']
                 }
             }
         },
@@ -66,8 +82,13 @@ module.exports = function (grunt) {
             },
 
             assemble: {
-                files: [ 'gruntfile.js', SRC + 'views/**.hbs' ],
-                tasks: [ 'clean', 'assemble' ]
+                files: ['gruntfile.js', SRC + 'views/**/*.hbs'],
+                tasks: ['clean', 'assemble']
+            },
+
+            compass: {
+                files: [SRC + 'sass/*.scss'],
+                tasks: ['compass']
             }
         }
     });
@@ -78,7 +99,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-shell');
 
     //tasks
-    grunt.registerTask('default', ['assemble', 'compass', 'connect', 'watch']);
+    grunt.registerTask('init', ['shell']);
+    grunt.registerTask('default', ['clean', 'assemble', 'compass', 'connect', 'watch']);
 };

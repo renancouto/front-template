@@ -14,6 +14,7 @@
         "grunt-contrib-connect": "",
         "grunt-contrib-watch": "",
         "grunt-contrib-compass": "",
-        "grunt-contrib-clean": ""
+        "grunt-contrib-clean": "",
+        "grunt-shell": ""
     }
 }
