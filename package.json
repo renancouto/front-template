@@ -1,12 +1,16 @@
 {
-    "name": "wave-admin",
-    "private": true,
+    "name": "front-template",
+    "description": "A basic template for front-end development using Node.js",
+    "author": {
+        "name": "Renan Couto",
+        "url": "http://github.com/renancouto"
+    },
     "repository": {
         "type": "git",
-        "url": "https://renancouto@bitbucket.org/renancouto/wave-admin.git"
+        "url": "https://github.com/renancouto/front-template.git"
     },
     "scripts": {
-        "start": ""
+        "start": "grunt"
     },
     "devDependencies": {
         "assemble": "*",
