@@ -17,11 +17,11 @@
     "grunt": "*",
     "grunt-contrib-connect": "",
     "grunt-contrib-watch": "",
-    "grunt-contrib-compass": "",
     "grunt-contrib-clean": "",
     "grunt-contrib-copy": "",
     "grunt-jslint": "",
     "grunt-shell": "",
-    "grunt-prettify": "~0.2.2"
+    "grunt-prettify": "~0.2.2",
+    "grunt-sass": "~0.6.1"
   }
 }

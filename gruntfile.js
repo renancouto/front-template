@@ -18,8 +18,7 @@ module.exports = function (grunt) {
         // initializer
         shell: {
             git: {
-                command: 'git pull',
-                stdout: true
+                command: 'git pull'
             },
 
             removeModules: {
@@ -27,8 +26,7 @@ module.exports = function (grunt) {
             },
 
             installModules: {
-                command: 'npm install',
-                stdout: true
+                command: 'npm install'
             }
         },
 
@@ -76,25 +74,34 @@ module.exports = function (grunt) {
             }
         },
 
-        // sass (uses compass)
-        compass: {
+        // stylesheets
+        sass: {
             dev: {
                 options: {
-                    sassDir: SRC + 'sass',
-                    cssDir: DIST + 'css',
-                    outputStyle: 'expanded',
-                    require: ['normalize']
-                }
+                    outputStyle: 'expanded'
+                },
+
+                files: [{
+                    expand: true,
+                    cwd: SRC + 'sass',
+                    src: '*.scss',
+                    dest: DIST + 'css',
+                    ext: '.css'
+                }]
             },
 
             prod: {
                 options: {
-                    sassDir: SRC + 'sass',
-                    cssDir: DIST + 'css',
-                    outputStyle: 'compressed',
-                    environment: 'production',
-                    require: ['normalize']
-                }
+                    outputStyle: 'compressed'
+                },
+
+                files: [{
+                    expand: true,
+                    cwd: SRC + 'sass',
+                    src: '*.scss',
+                    dest: DIST + 'css',
+                    ext: '.css'
+                }]
             }
         },
 
@@ -174,7 +181,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('assemble');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-shell');
@@ -185,9 +192,9 @@ module.exports = function (grunt) {
     grunt.registerTask('init', ['shell']);
 
     grunt.registerTask('scripts', ['jslint', 'copy']);
-    grunt.registerTask('styles:dev', ['clean:styles', 'compass:dev']);
-    grunt.registerTask('styles:prod', ['clean:styles', 'compass:prod']);
+    grunt.registerTask('styles:dev', ['sass:dev']);
+    grunt.registerTask('styles:prod', ['sass:prod']);
 
     grunt.registerTask('prod', ['clean:all', 'scripts', 'assemble:prod', 'styles:prod', 'prettify:prod']);
-    grunt.registerTask('default', ['clean:all', 'scripts', 'assemble:dev', 'styles:dev', 'connect', 'watch']);
+    grunt.registerTask('default', ['scripts', 'styles:dev', 'assemble:dev', 'connect', 'watch']);
 };
