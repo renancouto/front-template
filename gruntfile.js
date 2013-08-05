@@ -179,14 +179,7 @@ module.exports = function (grunt) {
 
     // modules
     grunt.loadNpmTasks('assemble');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-jslint');
-    grunt.loadNpmTasks('grunt-prettify');
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     //tasks
     grunt.registerTask('init', ['shell']);
@@ -196,5 +189,5 @@ module.exports = function (grunt) {
     grunt.registerTask('styles:prod', ['sass:prod']);
 
     grunt.registerTask('prod', ['clean:all', 'scripts', 'assemble:prod', 'styles:prod', 'prettify:prod']);
-    grunt.registerTask('default', ['scripts', 'styles:dev', 'assemble:dev', 'connect', 'watch']);
+    grunt.registerTask('dev', ['scripts', 'styles:dev', 'assemble:dev', 'connect', 'watch']);
 };
