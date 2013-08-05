@@ -40,7 +40,24 @@ module.exports = function (grunt) {
                 layout: 'base.hbs'
             },
 
-            files: {
+            dev: {
+                options: {
+                    dev: true,
+                    prod: false
+                },
+
+                expand: true,
+                cwd: SRC + 'views/',
+                src: '*.hbs',
+                dest: DIST
+            },
+
+            prod: {
+                options: {
+                    dev: false,
+                    prod: true
+                },
+
                 expand: true,
                 cwd: SRC + 'views/',
                 src: '*.hbs',
@@ -65,7 +82,16 @@ module.exports = function (grunt) {
                 options: {
                     sassDir: SRC + 'sass',
                     cssDir: DIST + 'css',
-                    outputStyle: 'compact',
+                    outputStyle: 'expanded',
+                    require: ['normalize']
+                }
+            },
+
+            prod: {
+                options: {
+                    sassDir: SRC + 'sass',
+                    cssDir: DIST + 'css',
+                    outputStyle: 'compressed',
                     environment: 'production',
                     require: ['normalize']
                 }
@@ -80,7 +106,10 @@ module.exports = function (grunt) {
         },
 
         // clean DIST folder
-        clean: [ DIST ],
+        clean: {
+            all: [DIST],
+            styles: [DIST + 'css/']
+        },
 
         // copy files from SRC to DIST
         copy: {
@@ -137,6 +166,11 @@ module.exports = function (grunt) {
 
     //tasks
     grunt.registerTask('init', ['shell']);
+
     grunt.registerTask('scripts', ['jslint', 'copy']);
-    grunt.registerTask('default', ['clean', 'scripts', 'compass', 'assemble', 'connect', 'watch']);
+    grunt.registerTask('styles:dev', ['clean:styles', 'compass:dev']);
+    grunt.registerTask('styles:prod', ['clean:styles', 'compass:prod']);
+
+    grunt.registerTask('prod', ['clean:all', 'scripts', 'assemble:prod', 'styles:prod']);
+    grunt.registerTask('default', ['clean:all', 'scripts', 'assemble:dev', 'styles:dev', 'connect', 'watch']);
 };

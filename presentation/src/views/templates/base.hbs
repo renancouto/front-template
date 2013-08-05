@@ -3,14 +3,16 @@
     <head>
         <title>{{title}}</title>
 
-        {{! styles}}
+        {{! styles }}
         <link href="css/global.css" rel="stylesheet">
     </head>
 
     <body>
         {{> body }}
 
-        {{! dev}}
+        {{! scripts }}
+        {{#dev}}
         <script src="http://localhost:{{ config.ports.watch }}/livereload.js"></script>
+        {{/dev}}
     </body>
 </html>
