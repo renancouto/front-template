@@ -131,6 +131,22 @@ module.exports = function (grunt) {
             }
         },
 
+        // prettify html output
+        prettify: {
+            options: {
+                preserve_newlines: false,
+                max_preserve_newlines: 1,
+                indent_size: 4
+            },
+
+            prod: {
+                expand: true,
+                cwd: DIST,
+                src: '*.html',
+                dest: DIST
+            }
+        },
+
         // watch (livereload)
         watch: {
             options: {
@@ -163,6 +179,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-jslint');
+    grunt.loadNpmTasks('grunt-prettify');
 
     //tasks
     grunt.registerTask('init', ['shell']);
@@ -171,6 +188,6 @@ module.exports = function (grunt) {
     grunt.registerTask('styles:dev', ['clean:styles', 'compass:dev']);
     grunt.registerTask('styles:prod', ['clean:styles', 'compass:prod']);
 
-    grunt.registerTask('prod', ['clean:all', 'scripts', 'assemble:prod', 'styles:prod']);
+    grunt.registerTask('prod', ['clean:all', 'scripts', 'assemble:prod', 'styles:prod', 'prettify:prod']);
     grunt.registerTask('default', ['clean:all', 'scripts', 'assemble:dev', 'styles:dev', 'connect', 'watch']);
 };
