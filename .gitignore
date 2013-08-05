@@ -17,3 +17,4 @@ node_modules
 *.sublime-*
 dist
 .sass-cache
+presentation/src/js/vendor/**

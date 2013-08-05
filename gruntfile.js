@@ -75,7 +75,7 @@ module.exports = function (grunt) {
         // lint js files
         jslint: {
             client: {
-                src: [SRC + 'js/*.js']
+                src: [SRC + 'js/**/*.js', '!' + SRC + 'js/vendor/**']
             }
         },
 
@@ -87,8 +87,18 @@ module.exports = function (grunt) {
             js: {
                 expand: true,
                 cwd: SRC,
-                src: ['js/**'],
+                src: ['js/**/*.js', '!js/vendor/**'],
                 dest: DIST
+            },
+
+            jsVendor: {
+                expand: true,
+                cwd: SRC,
+                src: ['js/vendor/jquery/jquery.js'],
+                dest: DIST,
+                rename: function (dest, src) {
+                    return dest + 'js/vendor/' + src.split('/').slice(-1)[0];
+                }
             }
         },
 
@@ -128,5 +138,5 @@ module.exports = function (grunt) {
     //tasks
     grunt.registerTask('init', ['shell']);
     grunt.registerTask('scripts', ['jslint', 'copy']);
-    grunt.registerTask('default', ['clean', 'assemble', 'compass', 'scripts', 'connect', 'watch']);
+    grunt.registerTask('default', ['clean', 'scripts', 'compass', 'assemble', 'connect', 'watch']);
 };
