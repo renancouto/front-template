@@ -15,6 +15,7 @@
         "grunt-contrib-watch": "",
         "grunt-contrib-compass": "",
         "grunt-contrib-clean": "",
-        "grunt-shell": ""
+        "grunt-shell": "",
+        "grunt-jslint": ""
     }
 }

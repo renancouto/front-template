@@ -72,6 +72,13 @@ module.exports = function (grunt) {
             }
         },
 
+        // lint js files
+        jslint: {
+            client: {
+                src: [SRC + 'js/*.js']
+            }
+        },
+
         // clean DIST folder
         clean: [ DIST ],
 
@@ -100,6 +107,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-jslint');
 
     //tasks
     grunt.registerTask('init', ['shell']);
