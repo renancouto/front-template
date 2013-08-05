@@ -4,7 +4,7 @@ module.exports = function (grunt) {
     'use strict';
 
     // config
-    var SRC =  './presentation/src/',
+    var SRC = './presentation/src/',
         DIST = './presentation/dist/',
 
         config = grunt.file.readJSON(SRC + 'data/config.json'),
@@ -82,6 +82,16 @@ module.exports = function (grunt) {
         // clean DIST folder
         clean: [ DIST ],
 
+        // copy files from SRC to DIST
+        copy: {
+            js: {
+                expand: true,
+                cwd: SRC,
+                src: ['js/**'],
+                dest: DIST
+            }
+        },
+
         // watch (livereload)
         watch: {
             options: {
@@ -96,6 +106,11 @@ module.exports = function (grunt) {
             compass: {
                 files: [SRC + 'sass/*.scss'],
                 tasks: ['compass']
+            },
+
+            scripts: {
+                files: [SRC + 'js/**'],
+                tasks: ['scripts']
             }
         }
     });
@@ -106,10 +121,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-jslint');
 
     //tasks
     grunt.registerTask('init', ['shell']);
-    grunt.registerTask('default', ['clean', 'assemble', 'compass', 'connect', 'watch']);
+    grunt.registerTask('scripts', ['jslint', 'copy']);
+    grunt.registerTask('default', ['clean', 'assemble', 'compass', 'scripts', 'connect', 'watch']);
 };
