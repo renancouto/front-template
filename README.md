@@ -5,5 +5,3 @@ A basic template for front-end development using Node.js
 ## dependencies
 
 node, npm, grunt, ruby, sass
-
-

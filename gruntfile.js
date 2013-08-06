@@ -118,7 +118,8 @@ module.exports = function (grunt) {
             all: DIST,
             styles: DIST + 'css/',
             scripts: DIST + 'js/',
-            views: DIST + '*.html'
+            views: DIST + '*.html',
+            images: DIST + 'img/'
         },
 
         // copy files from SRC to DIST
@@ -157,6 +158,42 @@ module.exports = function (grunt) {
             }
         },
 
+        // verify lowercase
+        verifylowercase: {
+            all: {
+                src: [DIST + '**']
+            }
+        },
+
+        // minify images
+        imagemin: {
+            dev: {
+                options: {
+                    optimizationLevel: 0
+                },
+
+                files: [{
+                    expand: true,
+                    cwd: SRC,
+                    src: 'img/**/*.{gif,jpg,png}',
+                    dest: DIST
+                }]
+            },
+
+            prod: {
+                options: {
+                    optimizationLevel: 7    // may be a lot slow
+                },
+
+                files: [{
+                    expand: true,
+                    cwd: SRC,
+                    src: 'img/**/*.{gif,jpg,png}',
+                    dest: DIST
+                }]
+            }
+        },
+
         // watch (livereload)
         watch: {
             options: {
@@ -192,7 +229,9 @@ module.exports = function (grunt) {
     grunt.registerTask('scripts', ['clean:scripts', 'jslint', 'copy']);
     grunt.registerTask('styles:dev', ['clean:styles', 'sass:dev']);
     grunt.registerTask('styles:prod', ['clean:styles', 'sass:prod']);
+    grunt.registerTask('images:dev', ['clean:images', 'imagemin:dev']);
+    grunt.registerTask('images:prod', ['clean:images', 'imagemin:prod']);
 
-    grunt.registerTask('prod', ['clean:all', 'scripts', 'styles:prod', 'views:prod']);
-    grunt.registerTask('dev', ['scripts', 'styles:dev', 'views:dev', 'connect', 'watch']);
+    grunt.registerTask('prod', ['clean:all', 'scripts', 'styles:prod', 'views:prod', 'images:prod']);
+    grunt.registerTask('dev', ['scripts', 'styles:dev', 'views:dev', 'images:dev', 'connect', 'watch']);
 };
