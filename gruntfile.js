@@ -35,7 +35,8 @@ module.exports = function (grunt) {
             options: {
                 data: SRC + 'data/*.json',
                 layoutdir: SRC + 'views/templates/',
-                layout: 'base.hbs'
+                layout: 'base.hbs',
+                helpers: SRC + 'views/helpers/*.js'
             },
 
             dev: {
@@ -163,13 +164,13 @@ module.exports = function (grunt) {
             },
 
             assemble: {
-                files: ['gruntfile.js', SRC + 'views/**/*.hbs'],
-                tasks: ['assemble:dev']
+                files: ['gruntfile.js', SRC + 'views/**/*.hbs', SRC + 'data/*.json'],
+                tasks: ['views:dev']
             },
 
             sass: {
                 files: [SRC + 'sass/*.scss'],
-                tasks: ['sass:dev']
+                tasks: ['styles:dev']
             },
 
             scripts: {

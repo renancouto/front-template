@@ -2,5 +2,9 @@
     "ports": {
         "server": 5000,
         "watch": 35728
+    },
+
+    "paths": {
+        "css": "css/"
     }
 }

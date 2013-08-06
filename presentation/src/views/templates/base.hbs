@@ -4,7 +4,10 @@
         <title>{{title}}</title>
 
         {{! styles }}
-        <link href="css/global.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ path 'css' 'global.css' }}">
+        {{#each style}}
+        <link rel="stylesheet" href="{{ path 'css' this }}">
+        {{/each}}
     </head>
 
     <body>
