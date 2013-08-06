@@ -10,7 +10,7 @@
     "url": "https://github.com/renancouto/front-template.git"
   },
   "scripts": {
-    "start": "grunt"
+    "start": "grunt dev"
   },
   "devDependencies": {
     "assemble": "~0.4.3",

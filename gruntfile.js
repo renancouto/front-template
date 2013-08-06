@@ -114,8 +114,10 @@ module.exports = function (grunt) {
 
         // clean DIST folder
         clean: {
-            all: [DIST],
-            styles: [DIST + 'css/']
+            all: DIST,
+            styles: DIST + 'css/',
+            scripts: DIST + 'js/',
+            views: DIST + '*.html'
         },
 
         // copy files from SRC to DIST
@@ -146,7 +148,7 @@ module.exports = function (grunt) {
                 indent_size: 4
             },
 
-            prod: {
+            all: {
                 expand: true,
                 cwd: DIST,
                 src: '*.html',
@@ -162,12 +164,12 @@ module.exports = function (grunt) {
 
             assemble: {
                 files: ['gruntfile.js', SRC + 'views/**/*.hbs'],
-                tasks: ['clean', 'assemble']
+                tasks: ['assemble:dev']
             },
 
-            compass: {
+            sass: {
                 files: [SRC + 'sass/*.scss'],
-                tasks: ['compass']
+                tasks: ['sass:dev']
             },
 
             scripts: {
@@ -184,10 +186,12 @@ module.exports = function (grunt) {
     //tasks
     grunt.registerTask('init', ['shell']);
 
-    grunt.registerTask('scripts', ['jslint', 'copy']);
-    grunt.registerTask('styles:dev', ['sass:dev']);
-    grunt.registerTask('styles:prod', ['sass:prod']);
+    grunt.registerTask('views:dev', ['clean:views', 'assemble:dev', 'prettify:all']);
+    grunt.registerTask('views:prod', ['clean:views', 'assemble:prod', 'prettify:all']);
+    grunt.registerTask('scripts', ['clean:scripts', 'jslint', 'copy']);
+    grunt.registerTask('styles:dev', ['clean:styles', 'sass:dev']);
+    grunt.registerTask('styles:prod', ['clean:styles', 'sass:prod']);
 
-    grunt.registerTask('prod', ['clean:all', 'scripts', 'assemble:prod', 'styles:prod', 'prettify:prod']);
-    grunt.registerTask('dev', ['scripts', 'styles:dev', 'assemble:dev', 'connect', 'watch']);
+    grunt.registerTask('prod', ['clean:all', 'scripts', 'styles:prod', 'views:prod']);
+    grunt.registerTask('dev', ['scripts', 'styles:dev', 'views:dev', 'connect', 'watch']);
 };
