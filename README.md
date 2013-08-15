@@ -23,3 +23,18 @@ npm install
 grunt {environment}
 ```
 > use ***prod*** or ***dev*** as environments
+
+## tasks
+### [assemble](http://assemble.io/)
+> Generate static HTML files using Handlebars as the template engine
+
+```shell
+grunt assemble:{environment}
+```
+
+### connect
+> Creates the server
+
+```shell
+grunt connect
+```
