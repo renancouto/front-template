@@ -158,6 +158,20 @@ module.exports = function (grunt) {
             }
         },
 
+        // minify html output
+        htmlmin: {
+            options: {
+                collapseWhitespace: true
+            },
+
+            all: {
+                expand: true,
+                cwd: DIST,
+                src: ['**/*.html', '**/*.hbs'],
+                dest: DIST
+            }
+        },
+
         // verify lowercase
         verifylowercase: {
             all: {
@@ -222,10 +236,10 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     //tasks
-    grunt.registerTask('init', ['shell']);
+    grunt.registerTask('start', ['shell']);
 
-    grunt.registerTask('views:dev', ['clean:views', 'assemble:dev', 'prettify:all']);
-    grunt.registerTask('views:prod', ['clean:views', 'assemble:prod', 'prettify:all']);
+    grunt.registerTask('views:dev', ['clean:views', 'assemble:dev', 'htmlmin:all']);
+    grunt.registerTask('views:prod', ['clean:views', 'assemble:prod', 'htmlmin:all']);
     grunt.registerTask('scripts', ['clean:scripts', 'jslint', 'copy']);
     grunt.registerTask('styles:dev', ['clean:styles', 'sass:dev']);
     grunt.registerTask('styles:prod', ['clean:styles', 'sass:prod']);
