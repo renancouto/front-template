@@ -106,6 +106,16 @@ module.exports = function (grunt) {
             }
         },
 
+        // adds vendor-prefix for the generated CSS
+        autoprefixer: {
+            all: {
+                expand: true,
+                cwd: DIST + 'css',
+                src: '*.css',
+                dest: DIST + 'css'
+            },
+        },
+
         // lint js files
         jslint: {
             client: {
