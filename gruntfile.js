@@ -1,42 +1,23 @@
 /*jslint node:true*/
+/*global GLOBAL*/
 
 module.exports = function (grunt) {
     'use strict';
 
     // config
-    var SRC = './presentation/src/',
-        DIST = './presentation/dist/',
-
-        config = grunt.file.readJSON(SRC + 'data/config.json'),
-
-        SERVER_PORT = config.ports.server,
-        WATCH_PORT = config.ports.watch;
+    GLOBAL.config = grunt.file.readJSON('./config.json');
 
     // setup
     grunt.initConfig({
-
-        // initializer
-        shell: {
-            git: {
-                command: 'git pull'
-            },
-
-            removeModules: {
-                command: 'rm -rf node_modules'
-            },
-
-            installModules: {
-                command: 'npm install'
-            }
-        },
+        config: GLOBAL.config,
 
         // build the templates
         assemble: {
             options: {
-                data: SRC + 'data/*.json',
-                layoutdir: SRC + 'views/templates/',
+                data: '<%= config.src %><%= config.data %>/*.json',
+                layoutdir: '<%= config.src %>views/templates/',
                 layout: 'base.hbs',
-                helpers: SRC + 'views/helpers/*.js'
+                helpers: '<%= config.src %>views/helpers/*.js'
             },
 
             dev: {
@@ -46,9 +27,9 @@ module.exports = function (grunt) {
                 },
 
                 expand: true,
-                cwd: SRC + 'views/',
+                cwd: '<%= config.src %>views/',
                 src: '*.hbs',
-                dest: DIST
+                dest: '<%= config.dist %>'
             },
 
             prod: {
@@ -58,9 +39,9 @@ module.exports = function (grunt) {
                 },
 
                 expand: true,
-                cwd: SRC + 'views/',
+                cwd: '<%= config.src %>views/',
                 src: '*.hbs',
-                dest: DIST
+                dest: '<%= config.dist %>'
             }
         },
 
@@ -68,8 +49,8 @@ module.exports = function (grunt) {
         connect: {
             server: {
                 options: {
-                    port: SERVER_PORT,
-                    base: DIST,
+                    port: '<%= config.ports.server %>',
+                    base: '<%= config.dist %>',
                     keepalive: false
                 }
             }
@@ -79,14 +60,15 @@ module.exports = function (grunt) {
         sass: {
             dev: {
                 options: {
-                    outputStyle: 'expanded'
+                    outputStyle: 'expanded',
+                    lineNumbers: true
                 },
 
                 files: [{
                     expand: true,
-                    cwd: SRC + 'sass',
+                    cwd: '<%= config.src %><%= config.styles %>',
                     src: '*.scss',
-                    dest: DIST + 'css',
+                    dest: '<%= config.dist %><%= config.styles %>',
                     ext: '.css'
                 }]
             },
@@ -98,9 +80,9 @@ module.exports = function (grunt) {
 
                 files: [{
                     expand: true,
-                    cwd: SRC + 'sass',
+                    cwd: '<%= config.src %><%= config.styles %>',
                     src: '*.scss',
-                    dest: DIST + 'css',
+                    dest: '<%= config.dist %><%= config.styles %>',
                     ext: '.css'
                 }]
             }
@@ -110,45 +92,55 @@ module.exports = function (grunt) {
         autoprefixer: {
             all: {
                 expand: true,
-                cwd: DIST + 'css',
+                cwd: '<%= config.dist %><%= config.styles %>',
                 src: '*.css',
-                dest: DIST + 'css'
+                dest: '<%= config.dist %><%= config.styles %>'
             },
         },
 
         // lint js files
         jslint: {
             client: {
-                src: [SRC + 'js/**/*.js', '!' + SRC + 'js/vendor/**']
+                src: ['<%= config.src %><%= config.scripts %>/**/*.js', '!' + '<%= config.src %><%= config.scripts %>/vendor/**']
             }
         },
 
-        // clean DIST folder
+        // clean '<%= config.dist %>' folder
         clean: {
-            all: DIST,
-            styles: DIST + 'css/',
-            scripts: DIST + 'js/',
-            views: DIST + '*.html',
-            images: DIST + 'img/'
+            all: '<%= config.dist %>',
+            styles: '<%= config.dist %><%= config.styles %>',
+            scripts: '<%= config.dist %><%= config.scripts %>',
+            views: '<%= config.dist %>*.html',
+            images: '<%= config.dist %><%= config.images %>'
         },
 
-        // copy files from SRC to DIST
+        // copy files from src to dist
         copy: {
-            js: {
-                expand: true,
-                cwd: SRC,
-                src: ['js/**/*.js', '!js/vendor/**'],
-                dest: DIST
+            config: {
+                filter: 'isFile',
+                src: 'config.json',
+                dest: '<%= config.src %><%= config.data %>'
             },
 
-            jsVendor: {
+            js: {
                 expand: true,
-                cwd: SRC,
-                src: ['js/vendor/jquery/jquery.js'],
-                dest: DIST,
-                rename: function (dest, src) {
-                    return dest + 'js/vendor/' + src.split('/').slice(-1)[0];
-                }
+                cwd: '<%= config.src %>',
+                src: '<%= config.scripts %>/**/*.js',
+                dest: '<%= config.dist %>'
+            },
+
+            font: {
+                expand: true,
+                cwd: '<%= config.src %>',
+                src: ['<%= config.fonts %>/*.{ttf,svg,woff,eot}', '!<%= config.fonts %>/*.dev.svg'],
+                dest: '<%= config.dist %>'
+            },
+
+            image: {
+                expand: true,
+                cwd: '<%= config.src %>',
+                src: '<%= config.images %>/**/*.gif',
+                dest: '<%= config.dist %>'
             }
         },
 
@@ -162,9 +154,9 @@ module.exports = function (grunt) {
 
             all: {
                 expand: true,
-                cwd: DIST,
+                cwd: '<%= config.dist %>',
                 src: '*.html',
-                dest: DIST
+                dest: '<%= config.dist %>'
             }
         },
 
@@ -176,44 +168,31 @@ module.exports = function (grunt) {
 
             all: {
                 expand: true,
-                cwd: DIST,
-                src: ['**/*.html', '**/*.hbs'],
-                dest: DIST
+                cwd: '<%= config.dist %>',
+                src: '**/*.html',
+                dest: '<%= config.dist %>'
             }
         },
 
         // verify lowercase
         verifylowercase: {
             all: {
-                src: [DIST + '**']
+                src: ['<%= config.dist %>**']
             }
         },
 
         // minify images
         imagemin: {
-            dev: {
+            all: {
                 options: {
                     optimizationLevel: 0
                 },
 
                 files: [{
                     expand: true,
-                    cwd: SRC,
-                    src: 'img/**/*.{gif,jpg,png}',
-                    dest: DIST
-                }]
-            },
-
-            prod: {
-                options: {
-                    optimizationLevel: 7    // may be a lot slow
-                },
-
-                files: [{
-                    expand: true,
-                    cwd: SRC,
-                    src: 'img/**/*.{gif,jpg,png}',
-                    dest: DIST
+                    cwd: '<%= config.src %>',
+                    src: ['*.{png}', '<%= config.images %>**/*.{jpg,png}', '!<%= config.images %>_sprites/**/*.*'],
+                    dest: '<%= config.dist %>'
                 }]
             }
         },
@@ -221,22 +200,27 @@ module.exports = function (grunt) {
         // watch (livereload)
         watch: {
             options: {
-                livereload: WATCH_PORT
+                livereload: '<%= config.ports.watch %>'
             },
 
             assemble: {
-                files: ['gruntfile.js', SRC + 'views/**/*.hbs', SRC + 'data/*.json'],
+                files: ['gruntfile.js', '<%= config.src %>views/**/*.{hbs,js}', '<%= config.src %><%= config.data %>/*.json'],
                 tasks: ['views:dev']
             },
 
             sass: {
-                files: [SRC + 'sass/*.scss'],
+                files: ['<%= config.src %><%= config.styles %>/**'],
                 tasks: ['styles:dev']
             },
 
             scripts: {
-                files: [SRC + 'js/**'],
+                files: ['<%= config.src %><%= config.scripts %>/**'],
                 tasks: ['scripts']
+            },
+
+            images: {
+                files: '<%= config.src %><%= config.images %>/**/*.{gif,jpg,png}',
+                tasks: ['images:dev']
             }
         }
     });
@@ -245,17 +229,16 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('assemble');
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    //tasks
-    grunt.registerTask('start', ['shell']);
-
+    // grouped tasks
     grunt.registerTask('views:dev', ['clean:views', 'assemble:dev', 'htmlmin:all']);
     grunt.registerTask('views:prod', ['clean:views', 'assemble:prod', 'htmlmin:all']);
     grunt.registerTask('scripts', ['clean:scripts', 'jslint', 'copy']);
     grunt.registerTask('styles:dev', ['clean:styles', 'sass:dev']);
     grunt.registerTask('styles:prod', ['clean:styles', 'sass:prod']);
-    grunt.registerTask('images:dev', ['clean:images', 'imagemin:dev']);
-    grunt.registerTask('images:prod', ['clean:images', 'imagemin:prod']);
+    grunt.registerTask('images:dev', ['clean:images', 'imagemin:all']);
+    grunt.registerTask('images:prod', ['clean:images', 'imagemin:all']);
 
+    // main tasks
     grunt.registerTask('prod', ['clean:all', 'scripts', 'styles:prod', 'views:prod', 'images:prod']);
     grunt.registerTask('dev', ['scripts', 'styles:dev', 'views:dev', 'images:dev', 'connect', 'watch']);
 };

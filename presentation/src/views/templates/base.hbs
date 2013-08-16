@@ -4,9 +4,9 @@
         <title>{{title}}</title>
 
         {{! styles }}
-        <link rel="stylesheet" href="{{ path 'css' 'global.css' }}">
+        <link rel="stylesheet" href="{{ css 'global' }}">
         {{#each style}}
-        <link rel="stylesheet" href="{{ path 'css' this }}">
+        <link rel="stylesheet" href="{{ css this }}">
         {{/each}}
     </head>
 
