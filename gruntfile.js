@@ -111,7 +111,8 @@ module.exports = function (grunt) {
             styles: '<%= config.dist %><%= config.styles %>',
             scripts: '<%= config.dist %><%= config.scripts %>',
             views: '<%= config.dist %>*.html',
-            images: '<%= config.dist %><%= config.images %>'
+            images: '<%= config.dist %><%= config.images %>',
+            config: '<%= config.src %><%= config.data %>config.json'
         },
 
         // copy files from src to dist
@@ -230,8 +231,8 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     // grouped tasks
-    grunt.registerTask('views:dev', ['clean:views', 'assemble:dev', 'htmlmin:all']);
-    grunt.registerTask('views:prod', ['clean:views', 'assemble:prod', 'htmlmin:all']);
+    grunt.registerTask('views:dev', ['clean:views', 'copy:config', 'assemble:dev', 'clean:config', 'prettify:all']);
+    grunt.registerTask('views:prod', ['clean:views', 'copy:config', 'assemble:prod', 'clean:config', 'htmlmin:all']);
     grunt.registerTask('scripts', ['clean:scripts', 'jslint', 'copy']);
     grunt.registerTask('styles:dev', ['clean:styles', 'sass:dev']);
     grunt.registerTask('styles:prod', ['clean:styles', 'sass:prod']);

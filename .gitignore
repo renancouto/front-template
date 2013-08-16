@@ -15,6 +15,6 @@ npm-debug.log
 node_modules
 
 *.sublime-*
-dist
 .sass-cache
+presentation/dist
 presentation/src/js/vendor/**

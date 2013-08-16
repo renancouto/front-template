@@ -1,0 +1,15 @@
+{
+    "src": "presentation/src/",
+    "dist": "presentation/dist/",
+
+    "data": "data/",
+    "fonts": "font/",
+    "images": "img/",
+    "scripts": "js/",
+    "styles": "css/",
+
+    "ports": {
+        "server": 5000,
+        "watch": 50001
+    }
+}
