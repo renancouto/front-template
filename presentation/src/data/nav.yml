@@ -1,0 +1,5 @@
+items: [
+    { label: 'Home', link: '/' },
+    { label: 'Page 1', link: 'page-1.html' },
+    { label: 'Page 2', link: 'page-2.html' }
+]

@@ -14,10 +14,11 @@ module.exports = function (grunt) {
         // build the templates
         assemble: {
             options: {
-                data: '<%= config.src %><%= config.data %>/*.json',
-                layoutdir: '<%= config.src %>views/templates/',
+                data: '<%= config.src %><%= config.data %>*.{json,yml}',
+                layoutdir: '<%= config.src %><%= config.views %>templates/',
                 layout: 'base.hbs',
-                helpers: '<%= config.src %>views/helpers/*.js'
+                helpers: '<%= config.src %><%= config.views %>helpers/*.js',
+                partials: '<%= config.src %><%= config.views %>partials/**/*.hbs'
             },
 
             dev: {
@@ -27,7 +28,7 @@ module.exports = function (grunt) {
                 },
 
                 expand: true,
-                cwd: '<%= config.src %>views/',
+                cwd: '<%= config.src %><%= config.views %>',
                 src: '*.hbs',
                 dest: '<%= config.dist %>'
             },
@@ -39,7 +40,7 @@ module.exports = function (grunt) {
                 },
 
                 expand: true,
-                cwd: '<%= config.src %>views/',
+                cwd: '<%= config.src %><%= config.views %>',
                 src: '*.hbs',
                 dest: '<%= config.dist %>'
             }
@@ -205,7 +206,7 @@ module.exports = function (grunt) {
             },
 
             assemble: {
-                files: ['gruntfile.js', '<%= config.src %>views/**/*.{hbs,js}', '<%= config.src %><%= config.data %>/*.json'],
+                files: ['gruntfile.js', '<%= config.src %><%= config.views %>**/*.{hbs,js}', '<%= config.src %><%= config.data %>*.{json,yml}'],
                 tasks: ['views:dev']
             },
 
