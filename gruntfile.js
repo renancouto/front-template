@@ -193,7 +193,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.src %>',
-                    src: ['*.{png}', '<%= config.images %>**/*.{jpg,png}', '!<%= config.images %>_sprites/**/*.*'],
+                    src: ['*.{png}', '<%= config.images %>**/*.{jpg,png}', '!<%= config.images %>sprites/**/*.*'],
                     dest: '<%= config.dist %>'
                 }]
             }
@@ -254,8 +254,8 @@ module.exports = function (grunt) {
     grunt.registerTask('scripts', ['clean:scripts', 'jslint', 'copy']);
     grunt.registerTask('styles:dev', ['clean:styles', 'sass:dev']);
     grunt.registerTask('styles:prod', ['clean:styles', 'sass:prod']);
-    grunt.registerTask('images:dev', ['clean:images', 'imagemin:all']);
-    grunt.registerTask('images:prod', ['clean:images', 'imagemin:all']);
+    grunt.registerTask('images:dev', ['clean:images', 'sprite', 'imagemin:all']);
+    grunt.registerTask('images:prod', ['clean:images', 'sprite', 'imagemin:all']);
 
     // main tasks
     grunt.registerTask('prod', ['clean:all', 'scripts', 'styles:prod', 'views:prod', 'images:prod']);
