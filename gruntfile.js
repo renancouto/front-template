@@ -199,6 +199,23 @@ module.exports = function (grunt) {
             }
         },
 
+        // create sprites
+        sprite: {
+            footer: {
+                src: '<%= config.src %><%= config.images %>sprites/footer/*.png',
+                destImg: '<%= config.src %><%= config.images %>footer-sprite.png',
+                imgPath: '../<%= config.images %>footer-sprite.png',
+                destCSS: '<%= config.src %><%= config.styles %>sprites/footer.scss',
+                cssFormat: 'css',
+                engine: 'gm',
+                cssOpts: {
+                    cssClass: function (data) {
+                        return '.main-footer .icon-' + data.name;
+                    }
+                }
+            }
+        },
+
         // watch (livereload)
         watch: {
             options: {
