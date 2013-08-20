@@ -223,7 +223,7 @@ module.exports = function (grunt) {
             },
 
             assemble: {
-                files: ['gruntfile.js', '<%= config.src %><%= config.views %>**/*.{hbs,js}', '<%= config.src %><%= config.data %>*.{json,yml}'],
+                files: ['gruntfile.js', '<%= config.src %><%= config.views %>**/*.{hbs,js}', '<%= config.src %><%= config.data %>*.{json,yml}', '!<%= config.src %><%= config.data %>config.json'],
                 tasks: ['views:dev']
             },
 
@@ -238,7 +238,7 @@ module.exports = function (grunt) {
             },
 
             images: {
-                files: '<%= config.src %><%= config.images %>/**/*.{gif,jpg,png}',
+                files: ['<%= config.src %><%= config.images %>/**/*.{gif,jpg,png}'],
                 tasks: ['images:dev']
             }
         }
